@@ -1,0 +1,162 @@
+# syntax=docker/dockerfile:1.2
+FROM nvcr.io/nvidia/l4t-base:r32.7.1
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install various implicit dependencies for `nvidia-l4t-core` and `nvidia-jetpack`
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      apt-utils \
+      ca-certificates \
+      gnupg2
+
+# Add NVIDIA Jetson repositories (common + arch-specific) and install `nvidia-l4t-core` package
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    echo "deb https://repo.download.nvidia.com/jetson/common r32.7 main" >> /etc/apt/sources.list && \
+    echo "deb https://repo.download.nvidia.com/jetson/t210 r32.7 main" >> /etc/apt/sources.list && \
+    apt-key adv --fetch-key http://repo.download.nvidia.com/jetson/jetson-ota-public.asc && \
+    mkdir -p /opt/nvidia/l4t-packages/ && \
+    touch /opt/nvidia/l4t-packages/.nv-l4t-disable-boot-fw-update-in-preinstall && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends --option=Dpkg::Options::="--force-confnew" \
+      nvidia-l4t-core
+
+# Install NVIDIA Jetpack
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      nvidia-jetpack
+
+# Add the CMake official PPA
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    software-properties-common \
+    wget && \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+
+# Install build dependencies
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    ninja-build \
+    git \
+    git-lfs \
+    pkg-config
+
+# Install OpenCV dependencies
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    gfortran \
+    libatlas-base-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libblas-dev \
+    libeigen3-dev \
+    libfaac-dev \
+    libfreetype6-dev \
+    libgflags-dev \
+    libglew-dev \
+    libgoogle-glog-dev \
+    libharfbuzz-dev \
+    libhdf5-dev \
+    libjpeg-dev \
+    libjpeg-turbo8-dev \
+    libjpeg8-dev \
+    liblapack-dev \
+    liblapacke-dev \
+    libmp3lame-dev \
+    libopenblas-dev \
+    libopencore-amrnb-dev \
+    libopencore-amrwb-dev \
+    libpng-dev \
+    libpostproc-dev \
+    libprotobuf-dev \
+    libswresample-dev \
+    libswscale-dev \
+    libtbb-dev \
+    libtesseract-dev \
+    libtheora-dev \
+    libtiff-dev \
+    libv4l-dev \
+    libvorbis-dev \
+    libx264-dev \
+    libxine2-dev \
+    libxvidcore-dev \
+    protobuf-compiler \
+    v4l-utils
+
+# Retrieve OpenCV
+ARG OPENCV_VERSION=4.10.0
+RUN git clone --depth 1 --branch ${OPENCV_VERSION} https://github.com/opencv/opencv_contrib.git
+RUN git clone --depth 1 --branch ${OPENCV_VERSION} https://github.com/opencv/opencv.git
+
+# Build OpenCV
+RUN cd opencv && \
+    mkdir build && \
+    cd build && \
+    cmake \
+      -D BUILD_EXAMPLES=OFF \
+      -D BUILD_opencv_apps=OFF \
+      -D BUILD_opencv_highgui=OFF \
+      -D BUILD_opencv_java=OFF \
+      -D BUILD_opencv_java_bindings_generator=OFF \
+      -D BUILD_opencv_photo=ON \
+      -D BUILD_opencv_python_bindings_generator=OFF \
+      -D BUILD_opencv_python2=OFF \
+      -D BUILD_opencv_python3=OFF \
+      -D BUILD_PERF_TESTS=OFF \
+      -D BUILD_SHARED_LIBS=ON \
+      -D BUILD_TBB=ON \
+      -D BUILD_TESTS=OFF \
+      -D BUILD_TIFF=ON \
+      -D CMAKE_BUILD_TYPE=RELEASE \
+      -D CMAKE_INSTALL_PREFIX=/usr \
+      -D CPACK_BINARY_DEB=ON \
+      -D CUDA_ARCH_BIN="5.3,6.2,7.2,8.7" \
+      -D CUDA_ARCH_PTX="" \
+      -D CUDA_FAST_MATH=ON \
+      -D ENABLE_CUDA_FIRST_CLASS_LANGUAGE=ON \
+      -D ENABLE_FAST_MATH=ON \
+      -D ENABLE_NEON=ON \
+      -D INSTALL_C_EXAMPLES=OFF \
+      -D INSTALL_PYTHON_EXAMPLES=OFF \
+      -D OPENCV_DNN_CUDA=ON \
+      -D OPENCV_ENABLE_NONFREE=OFF \
+      -D OPENCV_ENABLE_PKG_CONFIG=ON \
+      -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
+      -D OPENCV_GENERATE_PKGCONFIG=ON \
+      -D WITH_CUBLAS=ON \
+      -D WITH_CUDA=ON \
+      -D WITH_CUDNN=ON \
+      -D WITH_EIGEN=ON \
+      -D WITH_FREETYPE=ON \
+      -D WITH_HARFBUZZ=ON \
+      -D WITH_FFMPEG=ON \
+      -D WITH_GSTREAMER=ON \
+      -D WITH_GTK=OFF \
+      -D WITH_GTK_2_X=OFF \
+      -D WITH_LIBV4L=ON \
+      -D WITH_NVCUVENC=OFF \
+      -D WITH_NVCUVID=OFF \
+      -D WITH_OPENCL=OFF \
+      -D WITH_OPENMP=ON \
+      -D WITH_PROTOBUF=ON \
+      -D WITH_QT=OFF \
+      -D WITH_TBB=ON \
+      -D WITH_V4L=ON \

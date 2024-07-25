@@ -30,32 +30,32 @@ docker build -t equivs-build -f Dockerfile.equivs-build .
 
 # Build the nvidia-opencv deb meta-package
 cp ${META_DIR}/nvidia-opencv ${BUILD_DIR}/
-docker run --rm -it \
+docker run --rm \
   -v ${BUILD_DIR}:/build \
   equivs-build --arch arm64 /build/nvidia-opencv
 
 # Build the nvidia-jetpack deb meta-package
 cp ${META_DIR}/nvidia-jetpack ${BUILD_DIR}/
-docker run --rm -it \
+docker run --rm \
   -v ${BUILD_DIR}:/build \
   equivs-build --arch arm64 /build/nvidia-jetpack
 
 # Upload the OpenCV deb package to S3
-docker run --rm -it \
+docker run --rm \
   -v ~/.aws:/root/.aws \
   -v ${BUILD_DIR}:/build \
   -e GPG_PRIVATE_KEY="${GPG_PRIVATE_KEY}" \
   deb-s3 upload --bucket "${S3_BUCKET}" --arch arm64 --prefix jetson/common --codename=r32.7 --sign ${GPG_PUBLIC_KEY} /build/${DEB_FILENAME}
 
 # Upload the nvidia-opencv deb package to S3
-docker run --rm -it \
+docker run --rm \
   -v ~/.aws:/root/.aws \
   -v ${BUILD_DIR}:/build \
   -e GPG_PRIVATE_KEY="${GPG_PRIVATE_KEY}" \
   deb-s3 upload --bucket "${S3_BUCKET}" --arch arm64 --prefix jetson/common --codename=r32.7 --sign ${GPG_PUBLIC_KEY} /build/nvidia-opencv_${JETPACK_VERSION}_arm64.deb
 
 # Upload the nvidia-jetpack deb package to S3
-docker run --rm -it \
+docker run --rm \
   -v ~/.aws:/root/.aws \
   -v ${BUILD_DIR}:/build \
   -e GPG_PRIVATE_KEY="${GPG_PRIVATE_KEY}" \

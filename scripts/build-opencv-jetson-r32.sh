@@ -8,4 +8,4 @@ mkdir -p ${SCRIPT_DIR}/../build/opencv-jetson-r32
 cd ${SCRIPT_DIR}/../docker
 
 docker build -t opencv-jetson-r32 -f Dockerfile.opencv-jetson-r32 .
-docker run --rm -it -v ${SCRIPT_DIR}/../build/opencv-jetson-r32:/build opencv-jetson-r32
+docker run --rm -v ${SCRIPT_DIR}/../build/opencv-jetson-r32:/build opencv-jetson-r32

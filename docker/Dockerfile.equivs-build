@@ -1,0 +1,15 @@
+# syntax=docker/dockerfile:1.2
+FROM ubuntu:jammy
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      equivs
+
+WORKDIR /build
+
+ENTRYPOINT [ "equivs-build" ]

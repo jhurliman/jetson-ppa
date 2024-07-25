@@ -52,6 +52,7 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
+    file \
     ninja-build \
     git \
     git-lfs \
@@ -67,6 +68,7 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     libavcodec-dev \
     libavformat-dev \
     libblas-dev \
+    libceres-dev \
     libeigen3-dev \
     libfaac-dev \
     libfreetype6-dev \
@@ -101,62 +103,16 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     protobuf-compiler \
     v4l-utils
 
-# Retrieve OpenCV
-ARG OPENCV_VERSION=4.10.0
-RUN git clone --depth 1 --branch ${OPENCV_VERSION} https://github.com/opencv/opencv_contrib.git
-RUN git clone --depth 1 --branch ${OPENCV_VERSION} https://github.com/opencv/opencv.git
+WORKDIR /usr/src
 
-# Build OpenCV
-RUN cd opencv && \
-    mkdir build && \
-    cd build && \
-    cmake \
-      -D BUILD_EXAMPLES=OFF \
-      -D BUILD_opencv_apps=OFF \
-      -D BUILD_opencv_highgui=OFF \
-      -D BUILD_opencv_java=OFF \
-      -D BUILD_opencv_java_bindings_generator=OFF \
-      -D BUILD_opencv_photo=ON \
-      -D BUILD_opencv_python_bindings_generator=OFF \
-      -D BUILD_opencv_python2=OFF \
-      -D BUILD_opencv_python3=OFF \
-      -D BUILD_PERF_TESTS=OFF \
-      -D BUILD_SHARED_LIBS=ON \
-      -D BUILD_TBB=ON \
-      -D BUILD_TESTS=OFF \
-      -D BUILD_TIFF=ON \
-      -D CMAKE_BUILD_TYPE=RELEASE \
-      -D CMAKE_INSTALL_PREFIX=/usr \
-      -D CPACK_BINARY_DEB=ON \
-      -D CUDA_ARCH_BIN="5.3,6.2,7.2,8.7" \
-      -D CUDA_ARCH_PTX="" \
-      -D CUDA_FAST_MATH=ON \
-      -D ENABLE_CUDA_FIRST_CLASS_LANGUAGE=ON \
-      -D ENABLE_FAST_MATH=ON \
-      -D ENABLE_NEON=ON \
-      -D INSTALL_C_EXAMPLES=OFF \
-      -D INSTALL_PYTHON_EXAMPLES=OFF \
-      -D OPENCV_DNN_CUDA=ON \
-      -D OPENCV_ENABLE_NONFREE=OFF \
-      -D OPENCV_ENABLE_PKG_CONFIG=ON \
-      -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules \
-      -D OPENCV_GENERATE_PKGCONFIG=ON \
-      -D WITH_CUBLAS=ON \
-      -D WITH_CUDA=ON \
-      -D WITH_CUDNN=ON \
-      -D WITH_EIGEN=ON \
-      -D WITH_FREETYPE=ON \
-      -D WITH_HARFBUZZ=ON \
-      -D WITH_FFMPEG=ON \
-      -D WITH_GSTREAMER=ON \
-      -D WITH_GTK=OFF \
-      -D WITH_GTK_2_X=OFF \
-      -D WITH_LIBV4L=ON \
-      -D WITH_NVCUVENC=OFF \
-      -D WITH_NVCUVID=OFF \
-      -D WITH_OPENCL=OFF \
-      -D WITH_OPENMP=ON \
-      -D WITH_PROTOBUF=ON \
-      -D WITH_QT=OFF \
-      -D WITH_TBB=ON \
-      -D WITH_V4L=ON \
+# Retrieve opencv_contrib 4.10.0 + PR#3751 (CUDA < 12.4 regression fix)
+RUN git clone https://github.com/opencv/opencv_contrib.git && \
+    cd opencv_contrib && \
+    git checkout b236c71c2f8d983403c35a0cea8bec0432a4b0fe
+# Retrieve OpenCV 4.10.0
+RUN git clone --depth 1 --branch 4.10.0 https://github.com/opencv/opencv.git
+
+# Add the build script
+COPY container-build-opencv-jetson-r32.sh .
+
+CMD ["bash", "container-build-opencv-jetson-r32.sh"]

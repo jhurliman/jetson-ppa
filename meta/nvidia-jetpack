@@ -1,0 +1,14 @@
+Section: metapackages
+Priority: standard
+Standards-Version: 4.5.0
+
+Package: nvidia-jetpack
+Version: 4.6.5-ppa1
+Architecture: arm64
+Depends: nvidia-l4t-jetson-multimedia-api (>> 32.7-0), nvidia-l4t-jetson-multimedia-api (<< 32.8-0), nvidia-cuda (= 4.6.5-b29), nvidia-tensorrt (= 4.6.5-b29), nvidia-nsight-sys (= 4.6.5-b29), nvidia-cudnn8 (= 4.6.5-b29), nvidia-opencv (= 4.6.5-ppa1), nvidia-container (= 4.6.5-b29), nvidia-visionworks (= 4.6.5-b29), nvidia-vpi (= 4.6.5-b29)
+License: Expat
+Vendor: John Hurliman
+Maintainer: John Hurliman <jhurliman@jhurliman.org>
+Homepage: https://github.com/jhurliman/jetson-ppa
+Description: Meta-package for nvidia-jetpack
+ This package is a meta-package that depends on the entire NVIDIA JetPack suite of tools and libraries.

@@ -4,7 +4,7 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-S3_BUCKET=ppa-jetson-r32
+S3_BUCKET=repo.download.mvi.llc
 OPENCV_VERSION=4.10.0
 JETPACK_VERSION=4.6.5-ppa1
 DEB_FILENAME="OpenCV-${OPENCV_VERSION}-arm64-dev.deb"

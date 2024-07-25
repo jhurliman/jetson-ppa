@@ -1,0 +1,118 @@
+# syntax=docker/dockerfile:1.2
+FROM nvcr.io/nvidia/l4t-base:r32.7.1
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install various implicit dependencies for `nvidia-l4t-core` and `nvidia-jetpack`
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      apt-utils \
+      ca-certificates \
+      gnupg2
+
+# Add NVIDIA Jetson repositories (common + arch-specific) and install `nvidia-l4t-core` package
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    echo "deb https://repo.download.nvidia.com/jetson/common r32.7 main" >> /etc/apt/sources.list && \
+    echo "deb https://repo.download.nvidia.com/jetson/t210 r32.7 main" >> /etc/apt/sources.list && \
+    apt-key adv --fetch-key http://repo.download.nvidia.com/jetson/jetson-ota-public.asc && \
+    mkdir -p /opt/nvidia/l4t-packages/ && \
+    touch /opt/nvidia/l4t-packages/.nv-l4t-disable-boot-fw-update-in-preinstall && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends --option=Dpkg::Options::="--force-confnew" \
+      nvidia-l4t-core
+
+# Install NVIDIA Jetpack
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      nvidia-jetpack
+
+# Add the CMake official PPA
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    software-properties-common \
+    wget && \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+
+# Install build dependencies
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    file \
+    ninja-build \
+    git \
+    git-lfs \
+    pkg-config
+
+# Install OpenCV dependencies
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    gfortran \
+    libatlas-base-dev \
+    libavcodec-dev \
+    libavformat-dev \
+    libblas-dev \
+    libceres-dev \
+    libeigen3-dev \
+    libfaac-dev \
+    libfreetype6-dev \
+    libgflags-dev \
+    libglew-dev \
+    libgoogle-glog-dev \
+    libharfbuzz-dev \
+    libhdf5-dev \
+    libjpeg-dev \
+    libjpeg-turbo8-dev \
+    libjpeg8-dev \
+    liblapack-dev \
+    liblapacke-dev \
+    libmp3lame-dev \
+    libopenblas-dev \
+    libopencore-amrnb-dev \
+    libopencore-amrwb-dev \
+    libpng-dev \
+    libpostproc-dev \
+    libprotobuf-dev \
+    libswresample-dev \
+    libswscale-dev \
+    libtbb-dev \
+    libtesseract-dev \
+    libtheora-dev \
+    libtiff-dev \
+    libv4l-dev \
+    libvorbis-dev \
+    libx264-dev \
+    libxine2-dev \
+    libxvidcore-dev \
+    protobuf-compiler \
+    v4l-utils
+
+WORKDIR /usr/src
+
+# Retrieve opencv_contrib 4.10.0 + PR#3751 (CUDA < 12.4 regression fix)
+RUN git clone https://github.com/opencv/opencv_contrib.git && \
+    cd opencv_contrib && \
+    git checkout b236c71c2f8d983403c35a0cea8bec0432a4b0fe
+# Retrieve OpenCV 4.10.0
+RUN git clone --depth 1 --branch 4.10.0 https://github.com/opencv/opencv.git
+
+# Add the build script
+COPY container-build-opencv-jetson-r32.sh .
+
+CMD ["bash", "container-build-opencv-jetson-r32.sh"]

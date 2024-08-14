@@ -18,6 +18,5 @@ jobs:
       # Checkout
       - uses: actions/checkout@v4
 
-      # Build
-      - name: Build OpenCV
-        run: ./scripts/build-opencv-jetson-r32.sh
+      - name: Build Eigen
+        run: ./scripts/build-eigen-jetson-r32.sh

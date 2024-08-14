@@ -6,12 +6,12 @@ Build scripts and infrastructure to publish Jetson-optimized software to a custo
 To use the software published in this repository, you need to add the repository to your apt sources. To do this, run the following commands (assuming Jetson R32.7):
 
 ```bash
-wget -qO- https://ppa-jetson-r32.s3.us-east-1.amazonaws.com/jhurliman-public-key.asc | sudo gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import
-echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://ppa-jetson-r32.s3.us-east-1.amazonaws.com/jetson/common r32.7 main" | sudo tee /etc/apt/sources.list.d/jetson-ppa.list
+wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | sudo gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import
+echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" | sudo tee /etc/apt/sources.list.d/jetson-ppa.list
 sudo apt update
 ```
 
-You can then upgrade OpenCV to a Jetson-optimized build of 4.10.0 with the following command:
+You can then upgrade to a recent OpenCV Jetson-optimized build with the following command:
 
 ```bash
 sudo apt upgrade nvidia-jetpack
@@ -31,7 +31,15 @@ Docker is the only dependency for the build process, and QEMU if you are not on 
 ./scripts/build-opencv-jetson-r32.sh
 ```
 
-Publishing requires `GPG_PUBLIC_KEY` and `GPG_PRIVATE_KEY` environment variables to be set, then run:
+Publishing requires `GPG_PUBLIC_KEY` and `GPG_PRIVATE_KEY` environment variables to be set. Example:
+
+```bash
+gpg --show-keys <path-to-public-key.asc>
+export GPG_PUBLIC_KEY=<public-key>
+export GPG_PRIVATE_KEY=$(cat <path-to-private-key.asc>)
+```
+
+To publish the OpenCV package, run:
 
 ```bash
 ./scripts/publish-opencv-jetson-r32.sh

@@ -58,70 +58,31 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     git-lfs \
     pkg-config
 
-# Setup our PPA and install ceres and eigen
+# Setup our PPA and install eigen
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
     wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import && \
     echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" >> /etc/apt/sources.list.d/jetson-ppa.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    libceres-dev \
     libeigen3-dev
 
-# Install other OpenCV dependencies
+# Install BLAS and LAPACK (ceres dependencies)
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    gfortran \
-    libatlas-base-dev \
-    libavcodec-dev \
-    libavformat-dev \
     libblas-dev \
-    libfaac-dev \
-    libfreetype6-dev \
-    libgflags-dev \
-    libglew-dev \
-    libgoogle-glog-dev \
-    libharfbuzz-dev \
-    libhdf5-dev \
-    libjpeg-dev \
-    libjpeg-turbo8-dev \
-    libjpeg8-dev \
     liblapack-dev \
-    liblapacke-dev \
-    libmp3lame-dev \
-    libopenblas-dev \
-    libopencore-amrnb-dev \
-    libopencore-amrwb-dev \
-    libpng-dev \
-    libpostproc-dev \
-    libprotobuf-dev \
-    libswresample-dev \
-    libswscale-dev \
-    libtbb-dev \
-    libtesseract-dev \
-    libtheora-dev \
-    libtiff-dev \
-    libv4l-dev \
-    libvorbis-dev \
-    libx264-dev \
-    libxine2-dev \
-    libxvidcore-dev \
-    protobuf-compiler \
-    v4l-utils
+    liblapacke-dev
 
 WORKDIR /usr/src
 
-# Retrieve opencv_contrib 4.10.0 + PR#3751 (CUDA < 12.4 regression fix)
-RUN git config --global http.postBuffer 524288000 && \
-    git clone https://github.com/opencv/opencv_contrib.git && \
-    cd opencv_contrib && \
-    git checkout b236c71c2f8d983403c35a0cea8bec0432a4b0fe
-# Retrieve OpenCV 4.10.0
-RUN git clone --depth 1 --branch 4.10.0 https://github.com/opencv/opencv.git
+# Retrieve ceres-solver 2.2.0
+RUN git clone --depth 1 --branch 2.2.0 https://github.com/ceres-solver/ceres-solver.git
 
-# Add the build script
-COPY container-build-opencv-jetson-r32.sh .
+# Add the build scripts
+COPY build-ceres.cmake CMakeLists.txt
+COPY container-build-ceres-jetson-r32.sh .
 
-CMD ["bash", "container-build-opencv-jetson-r32.sh"]
+CMD ["bash", "container-build-ceres-jetson-r32.sh"]

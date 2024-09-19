@@ -4,7 +4,7 @@ set -e
 
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-PACKAGE=eigen
+PACKAGE=ceres
 
 mkdir -p ${SCRIPT_DIR}/../build/${PACKAGE}-jetson-r32
 cd ${SCRIPT_DIR}/../docker

@@ -19,7 +19,7 @@ cmake \
   -D BUILD_TBB=ON \
   -D BUILD_TESTS=OFF \
   -D BUILD_TIFF=ON \
-  -D CMAKE_BUILD_TYPE=RELEASE \
+  -D CMAKE_BUILD_TYPE=Release \
   -D CMAKE_C_FLAGS="-march=armv8-a+crc" \
   -D CMAKE_CXX_FLAGS="-march=armv8-a+crc" \
   -D CMAKE_INSTALL_PREFIX=/usr \

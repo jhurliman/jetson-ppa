@@ -7,7 +7,7 @@ cmake \
   -G Ninja \
   -D BUILD_TESTING=OFF \
   -D EIGEN_BUILD_DOC=OFF \
-  -D CMAKE_BUILD_TYPE=RELEASE \
+  -D CMAKE_BUILD_TYPE=Release \
   -D CMAKE_C_FLAGS="-march=armv8-a+crc" \
   -D CMAKE_CXX_FLAGS="-march=armv8-a+crc" \
   -D CMAKE_INSTALL_PREFIX=/usr \

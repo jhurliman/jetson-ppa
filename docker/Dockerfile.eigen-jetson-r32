@@ -74,6 +74,6 @@ RUN git clone --depth 1 --branch 3.4.0 https://gitlab.com/libeigen/eigen.git
 
 # Add the build scripts
 COPY build-eigen.cmake CMakeLists.txt
-COPY container-build-eigen-jetson-r32.sh .
+COPY container-build-eigen.sh .
 
-CMD ["bash", "container-build-eigen-jetson-r32.sh"]
+CMD ["bash", "container-build-eigen.sh"]

@@ -7,6 +7,7 @@ cmake \
   -G Ninja \
   -D BUILD_EXAMPLES=OFF \
   -D BUILD_opencv_apps=OFF \
+  -D BUILD_opencv_gapi=OFF \
   -D BUILD_opencv_highgui=OFF \
   -D BUILD_opencv_java=OFF \
   -D BUILD_opencv_java_bindings_generator=OFF \
@@ -20,14 +21,12 @@ cmake \
   -D BUILD_TESTS=OFF \
   -D BUILD_TIFF=ON \
   -D CMAKE_BUILD_TYPE=Release \
-  -D CMAKE_C_FLAGS="-march=armv8-a+crc" \
-  -D CMAKE_CXX_FLAGS="-march=armv8-a+crc" \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \
   -D CPACK_BINARY_DEB=ON \
   -D CPACK_COMPONENTS_ALL=dev \
-  -D CPACK_DEBIAN_PACKAGE_DEPENDS="gfortran, libatlas-base-dev, libavcodec-dev, libavformat-dev, \
-     libblas-dev, libceres-dev, libeigen3-dev, libfaac-dev, libfreetype6-dev, libgflags-dev, \
+  -D CPACK_DEBIAN_PACKAGE_DEPENDS="cuda-runtime-12-2, gfortran, libatlas-base-dev, libavcodec-dev, \
+     libavformat-dev, libblas-dev, libceres-dev, libcudnn8, libeigen3-dev, libfaac-dev, libfreetype6-dev, libgflags-dev, \
      libglew-dev, libgoogle-glog-dev, libharfbuzz-dev, libhdf5-dev, libjpeg-dev, libjpeg-turbo8-dev, \
      libjpeg8-dev, liblapack-dev, liblapacke-dev, libmp3lame-dev, libopenblas-dev, \
      libopencore-amrnb-dev, libopencore-amrwb-dev, libpng-dev, libpostproc-dev, libprotobuf-dev, \
@@ -38,12 +37,11 @@ cmake \
   -D CPACK_DEBIAN_PACKAGE_NAME=libopencv \
   -D CPACK_GENERATOR=DEB \
   -D CPACK_SOURCE_GENERATOR=DEB \
-  -D CUDA_ARCH_BIN="5.3,6.2,7.2" \
+  -D CUDA_ARCH_BIN="5.0,6.0,7.0,8.0" \
   -D CUDA_ARCH_PTX="" \
   -D CUDA_FAST_MATH=ON \
   -D ENABLE_CUDA_FIRST_CLASS_LANGUAGE=ON \
   -D ENABLE_FAST_MATH=ON \
-  -D ENABLE_NEON=ON \
   -D INSTALL_C_EXAMPLES=OFF \
   -D INSTALL_PYTHON_EXAMPLES=OFF \
   -D OPENCV_DNN_CUDA=ON \

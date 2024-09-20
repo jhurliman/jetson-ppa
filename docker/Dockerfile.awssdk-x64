@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.2
-FROM nvcr.io/nvidia/l4t-base:r32.7.1
+FROM ubuntu:jammy
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -12,10 +12,11 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     apt-utils \
     ca-certificates \
     gnupg2 \
+    libssl-dev \
     software-properties-common \
     wget && \
-    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
-    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null && \
+    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
 
 # Install build dependencies
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
@@ -25,27 +26,26 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     build-essential \
     cmake \
     file \
-    ninja-build \
     git \
     git-lfs \
+    ninja-build \
     pkg-config
 
-# Install Eigen dependencies
+# Install aws-sdk-cpp dependencies
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    gfortran \
-    libblas-dev \
-    liblapack-dev
+    libcurl4-openssl-dev \
+    zlib1g-dev
 
 WORKDIR /usr/src
 
-# Retrieve eigen 3.4.0
-RUN git clone --depth 1 --branch 3.4.0 https://gitlab.com/libeigen/eigen.git
+# Retrieve aws-sdk-cpp 1.11.409
+RUN git clone --recurse-submodules --depth 1 --branch 1.11.409 https://github.com/aws/aws-sdk-cpp.git
 
 # Add the build scripts
-COPY build-eigen.cmake CMakeLists.txt
-COPY container-build-eigen.sh .
+COPY build-awssdk.cmake CMakeLists.txt
+COPY container-build-awssdk-x64.sh .
 
-CMD ["bash", "container-build-eigen.sh"]
+CMD ["bash", "container-build-awssdk-x64.sh"]

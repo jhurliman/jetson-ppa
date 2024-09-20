@@ -18,5 +18,8 @@ jobs:
       # Checkout
       - uses: actions/checkout@v4
 
-      - name: Build Eigen
-        run: ./scripts/build-eigen-jetson-r32.sh
+      - name: Build Eigen (x64)
+        run: ./scripts/build.sh x64 eigen
+
+      - name: Build Eigen (Jetson R32)
+        run: ./scripts/build.sh jetson-r32 eigen

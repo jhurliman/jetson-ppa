@@ -8,8 +8,6 @@ cmake \
   -D BUILD_TESTING=OFF \
   -D EIGEN_BUILD_DOC=OFF \
   -D CMAKE_BUILD_TYPE=Release \
-  -D CMAKE_C_FLAGS="-march=armv8-a+crc" \
-  -D CMAKE_CXX_FLAGS="-march=armv8-a+crc" \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \
   -D CPACK_PACKAGE_CONTACT="John Hurliman <jhurliman@jhurliman.org>" \

@@ -25,9 +25,9 @@ if [ "${PLATFORM}" == "jetson-r32" ]; then
 elif [ "${PLATFORM}" == "x64" ]; then
   DEB_FILENAME="OpenCV-${VERSION}-amd64-dev.deb"
 fi
-BUILD_DIR="${SCRIPT_DIR}/../build/eigen-${PLATFORM}"
+BUILD_DIR="${SCRIPT_DIR}/../build/opencv-${PLATFORM}"
 if [ ! -f ${BUILD_DIR}/${DEB_FILENAME} ]; then
-  echo "${BUILD_DIR}/${DEB_FILENAME} not found. Run ./scripts/build.sh ${PLATFORM} eigen first."
+  echo "${BUILD_DIR}/${DEB_FILENAME} not found. Run ./scripts/build.sh ${PLATFORM} opencv first."
   exit 1
 fi
 

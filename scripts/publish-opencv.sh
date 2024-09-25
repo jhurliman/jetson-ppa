@@ -20,10 +20,10 @@ if [[ ! " ${PLATFORMS[@]} " =~ " ${PLATFORM} " ]]; then
 fi
 
 # Ensure the .deb exists
-if [ "${PLATFORM}" == "jetson-r32" ]; then
-  DEB_FILENAME="OpenCV-${VERSION}-arm64-dev.deb"
-elif [ "${PLATFORM}" == "x64" ]; then
-  DEB_FILENAME="OpenCV-${VERSION}-amd64-dev.deb"
+if [ "${PLATFORM}" == "x64" ]; then
+  DEB_FILENAME="OpenCV-${VERSION}-amd64.deb"
+else
+  DEB_FILENAME="OpenCV-${VERSION}-arm64.deb"
 fi
 BUILD_DIR="${SCRIPT_DIR}/../build/opencv-${PLATFORM}"
 if [ ! -f ${BUILD_DIR}/${DEB_FILENAME} ]; then

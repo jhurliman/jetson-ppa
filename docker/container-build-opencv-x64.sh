@@ -24,7 +24,8 @@ cmake \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \
   -D CPACK_BINARY_DEB=ON \
-  -D CPACK_COMPONENTS_ALL=dev \
+  -D CPACK_COMPONENTS_ALL="dev;libs" \
+  -D CPACK_DEB_COMPONENT_INSTALL=ON \
   -D CPACK_DEBIAN_PACKAGE_DEPENDS="cuda-runtime-12-2, gfortran, libatlas-base-dev, libavcodec-dev, \
      libavformat-dev, libblas-dev, libceres-dev, libcudnn8, libeigen3-dev, libfaac-dev, libfreetype6-dev, libgflags-dev, \
      libglew-dev, libgoogle-glog-dev, libharfbuzz-dev, libhdf5-dev, libjpeg-dev, libjpeg-turbo8-dev, \
@@ -36,6 +37,7 @@ cmake \
   -D CPACK_DEBIAN_PACKAGE_MAINTAINER="John Hurliman" \
   -D CPACK_DEBIAN_PACKAGE_NAME=libopencv \
   -D CPACK_GENERATOR=DEB \
+  -D CPACK_MONOLITHIC_INSTALL=ON \
   -D CPACK_SOURCE_GENERATOR=DEB \
   -D CUDA_ARCH_BIN="5.0,6.0,7.0,8.0" \
   -D CUDA_ARCH_PTX="" \

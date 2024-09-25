@@ -6,6 +6,7 @@ PLATFORMS=("jetson-r32" "x64")
 S3_BUCKET=repo.download.mvi.llc
 VERSION=4.10.0
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+META_DIR="${SCRIPT_DIR}/../meta"
 PLATFORM=$1
 
 # Validate arguments
@@ -78,12 +79,12 @@ if [ "${PLATFORM}" == "jetson-r32" ]; then
     -v ~/.aws:/root/.aws \
     -v ${BUILD_DIR}:/build \
     -e GPG_PRIVATE_KEY="${GPG_PRIVATE_KEY}" \
-    ${DEB_S3_CMD_BASE} /build/nvidia-opencv_${JETPACK_VERSION}_arm64.deb
+    ${DEB_S3_CMD_BASE} /build/nvidia-opencv_4.6.5-ppa1_arm64.deb
 
   # Upload the nvidia-jetpack deb package to S3
   docker run --rm \
     -v ~/.aws:/root/.aws \
     -v ${BUILD_DIR}:/build \
     -e GPG_PRIVATE_KEY="${GPG_PRIVATE_KEY}" \
-    ${DEB_S3_CMD_BASE} /build/nvidia-jetpack_${JETPACK_VERSION}_arm64.deb
+    ${DEB_S3_CMD_BASE} /build/nvidia-jetpack_4.6.5-ppa1_arm64.deb
 fi

@@ -39,4 +39,4 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" >> /etc/apt/sources.list.d/mvi-ppa.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    libopencv-dev=4.10.0
+    libopencv=4.10.0

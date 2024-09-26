@@ -84,7 +84,7 @@ cmake \
   -D WITH_V4L=ON \
   /usr/src/opencv
 
-# Build OpenCV and create a libopencv-dev deb package
+# Build OpenCV and create a libopencv deb package
 ninja package
 
 # Create a OpenCV source package (currently unused)

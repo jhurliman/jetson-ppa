@@ -20,7 +20,7 @@ sudo apt upgrade nvidia-jetpack
 Or if you are only interested in OpenCV and do not have JetPack installed:
 
 ```bash
-sudo apt install libopencv-dev
+sudo apt install libopencv
 ```
 
 # Development

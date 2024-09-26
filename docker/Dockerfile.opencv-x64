@@ -38,7 +38,7 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     dpkg -i cuda-keyring_1.1-1_all.deb && \
     rm cuda-keyring_1.1-1_all.deb && \
     apt-get update && \
-    apt-get install -y --no-install-recommends cuda-toolkit-12-2
+    apt-get install -y --no-install-recommends cuda-toolkit-12-0
 
 # Setup our PPA and install eigen and ceres
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \

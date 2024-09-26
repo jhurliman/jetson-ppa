@@ -28,7 +28,7 @@ sudo apt install libopencv-dev
 Docker is the only dependency for the build process, and QEMU if you are not on an ARM64 machine.
 
 ```bash
-./scripts/build-opencv-jetson-r32.sh
+./scripts/build.sh <jetson-r32 x64> <package-name>
 ```
 
 Publishing requires `GPG_PUBLIC_KEY` and `GPG_PRIVATE_KEY` environment variables to be set. Example:
@@ -39,8 +39,8 @@ export GPG_PUBLIC_KEY=<public-key>
 export GPG_PRIVATE_KEY=$(cat <path-to-private-key.asc>)
 ```
 
-To publish the OpenCV package, run:
+To publish a package, run:
 
 ```bash
-./scripts/publish-opencv-jetson-r32.sh
+./scripts/publish-<package_name>.sh <jetson-r32 x64>
 ```

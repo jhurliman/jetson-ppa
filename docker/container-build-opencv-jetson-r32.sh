@@ -1,4 +1,7 @@
-# Build OpenCV
+# Build and package OpenCV for Jetson
+
+# Increment this whenever the build script or Dockerfile changes
+CPACK_PACKAGE_RELEASE=1
 
 # This folder is bind-mounted from the host machine
 cd /build
@@ -37,6 +40,8 @@ cmake \
      protobuf-compiler, v4l-utils" \
   -D CPACK_DEBIAN_PACKAGE_MAINTAINER="John Hurliman" \
   -D CPACK_DEBIAN_PACKAGE_NAME=libopencv \
+  -D CPACK_PACKAGE_RELEASE="${CPACK_PACKAGE_RELEASE}" \
+  -D CPACK_DEBIAN_PACKAGE_RELEASE="ppa${CPACK_PACKAGE_RELEASE}" \
   -D CPACK_GENERATOR=DEB \
   -D CPACK_MONOLITHIC_INSTALL=ON \
   -D CPACK_SOURCE_GENERATOR=DEB \

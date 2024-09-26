@@ -1,4 +1,7 @@
-# Build OpenCV
+# Build and package OpenCV for x64
+
+# Increment this whenever the build script or Dockerfile changes
+CPACK_PACKAGE_RELEASE=1
 
 # This folder is bind-mounted from the host machine
 cd /build
@@ -26,7 +29,7 @@ cmake \
   -D CPACK_BINARY_DEB=ON \
   -D CPACK_COMPONENTS_ALL="dev;libs" \
   -D CPACK_DEB_COMPONENT_INSTALL=ON \
-  -D CPACK_DEBIAN_PACKAGE_DEPENDS="cuda-runtime-12-2, gfortran, libatlas-base-dev, libavcodec-dev, \
+  -D CPACK_DEBIAN_PACKAGE_DEPENDS="cuda-runtime-12-0, gfortran, libatlas-base-dev, libavcodec-dev, \
      libavformat-dev, libblas-dev, libceres-dev, libcudnn8, libeigen3-dev, libfaac-dev, libfreetype6-dev, libgflags-dev, \
      libglew-dev, libgoogle-glog-dev, libharfbuzz-dev, libhdf5-dev, libjpeg-dev, libjpeg-turbo8-dev, \
      libjpeg8-dev, liblapack-dev, liblapacke-dev, libmp3lame-dev, libopenblas-dev, \
@@ -36,6 +39,8 @@ cmake \
      protobuf-compiler, v4l-utils" \
   -D CPACK_DEBIAN_PACKAGE_MAINTAINER="John Hurliman" \
   -D CPACK_DEBIAN_PACKAGE_NAME=libopencv \
+  -D CPACK_PACKAGE_RELEASE="${CPACK_PACKAGE_RELEASE}" \
+  -D CPACK_DEBIAN_PACKAGE_RELEASE="ppa${CPACK_PACKAGE_RELEASE}" \
   -D CPACK_GENERATOR=DEB \
   -D CPACK_MONOLITHIC_INSTALL=ON \
   -D CPACK_SOURCE_GENERATOR=DEB \

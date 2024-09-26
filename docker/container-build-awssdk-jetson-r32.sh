@@ -1,4 +1,7 @@
-# Build ceres-solver
+# Build and package AWS SDK for C++ for Jetson
+
+# Increment this whenever the build script or Dockerfile changes
+CPACK_PACKAGE_RELEASE=1
 
 # This folder is bind-mounted from the host machine
 cd /build
@@ -23,7 +26,8 @@ cmake \
   -D CPACK_SOURCE_GENERATOR=DEB \
   -D CPACK_PACKAGE_CONTACT="John Hurliman <jhurliman@jhurliman.org>" \
   -D CPACK_PACKAGE_VERSION="1.11.409" \
-  -D CPACK_PACKAGE_RELEASE=1 \
+  -D CPACK_PACKAGE_RELEASE="${CPACK_PACKAGE_RELEASE}" \
+  -D CPACK_DEBIAN_PACKAGE_RELEASE="ppa${CPACK_PACKAGE_RELEASE}" \
   -D CPACK_PACKAGE_DESCRIPTION="AWS SDK for C++" \
   -D CPACK_DEBIAN_PACKAGE_SHLIBDEPS=ON \
   -D CPACK_DEBIAN_FILE_NAME="DEB-DEFAULT" \

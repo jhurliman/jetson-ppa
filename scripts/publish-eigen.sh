@@ -19,11 +19,18 @@ if [[ ! " ${PLATFORMS[@]} " =~ " ${PLATFORM} " ]]; then
   exit 1
 fi
 
+# NOTE: jammy already has libeigen3-dev 3.4.0, no need to publish our own. If
+# the Eigen version is ever bumped then this check should be removed
+if [ "${PLATFORM}" == "x64" ]; then
+  echo "Eigen 3.4.0 is already available in the jammy repository."
+  exit 1
+fi
+
 # Ensure the .deb exists
-if [ "${PLATFORM}" == "jetson-r32" ]; then
-  DEB_FILENAME="libeigen3-dev_${VERSION}_arm64.deb"
-elif [ "${PLATFORM}" == "x64" ]; then
+if [ "${PLATFORM}" == "x64" ]; then
   DEB_FILENAME="libeigen3-dev_${VERSION}_amd64.deb"
+else
+  DEB_FILENAME="libeigen3-dev_${VERSION}_arm64.deb"
 fi
 BUILD_DIR="${SCRIPT_DIR}/../build/eigen-${PLATFORM}"
 if [ ! -f ${BUILD_DIR}/${DEB_FILENAME} ]; then

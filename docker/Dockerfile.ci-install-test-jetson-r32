@@ -32,57 +32,11 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     apt-get install -y --no-install-recommends \
       nvidia-jetpack
 
-# Add the CMake official PPA
-RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
-    --mount=target=/var/cache/apt,type=cache,sharing=locked \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-    apt-transport-https \
-    ca-certificates \
-    gnupg \
-    software-properties-common \
-    wget && \
-    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
-    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
-
-# Install build dependencies
-RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
-    --mount=target=/var/cache/apt,type=cache,sharing=locked \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-    build-essential \
-    cmake \
-    file \
-    ninja-build \
-    git \
-    git-lfs \
-    pkg-config
-
-# Setup our PPA and install eigen
+# Setup our PPA and install OpenCV
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
     wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import && \
     echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" >> /etc/apt/sources.list.d/mvi-ppa.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    libeigen3-dev=3.4.0
-
-# Install BLAS and LAPACK (ceres dependencies)
-RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
-    --mount=target=/var/cache/apt,type=cache,sharing=locked \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-    libblas-dev \
-    liblapack-dev \
-    liblapacke-dev
-
-WORKDIR /usr/src
-
-# Retrieve ceres-solver 2.2.0
-RUN git clone --depth 1 --branch 2.2.0 https://github.com/ceres-solver/ceres-solver.git
-
-# Add the build scripts
-COPY build-ceres.cmake CMakeLists.txt
-COPY container-build-ceres-jetson-r32.sh .
-
-CMD ["bash", "container-build-ceres-jetson-r32.sh"]
+    libopencv=4.10.0

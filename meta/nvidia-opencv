@@ -5,10 +5,10 @@ Standards-Version: 4.5.0
 Package: nvidia-opencv
 Version: 4.6.5-ppa1
 Architecture: arm64
-Depends: libopencv-dev (= 4.10.0)
+Depends: libopencv (= 4.10.0)
 License: Expat
 Vendor: John Hurliman
 Maintainer: John Hurliman <jhurliman@jhurliman.org>
 Homepage: https://github.com/jhurliman/jetson-ppa
 Description: Meta-package for nvidia-opencv
- This package is a meta-package that depends on libopencv-dev
+ This package is a meta-package that depends on libopencv

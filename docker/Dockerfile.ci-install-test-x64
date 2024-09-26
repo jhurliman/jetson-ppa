@@ -1,0 +1,33 @@
+# syntax=docker/dockerfile:1.2
+FROM ubuntu:jammy
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies for setting up a PPA
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      apt-utils \
+      ca-certificates \
+      gnupg2 \
+      wget
+
+# Install CUDA Toolkit
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.1-1_all.deb && \
+    dpkg -i cuda-keyring_1.1-1_all.deb && \
+    rm cuda-keyring_1.1-1_all.deb && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends cuda-toolkit-12-0
+
+# Setup our PPA and install OpenCV
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import && \
+    echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/ubuntu/x64 jammy main" >> /etc/apt/sources.list.d/mvi-ppa.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libopencv=4.10.0

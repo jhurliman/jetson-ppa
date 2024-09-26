@@ -20,10 +20,10 @@ if [[ ! " ${PLATFORMS[@]} " =~ " ${PLATFORM} " ]]; then
 fi
 
 # Ensure the .deb exists
-if [ "${PLATFORM}" == "jetson-r32" ]; then
-  DEB_FILENAME="libceres-dev_${VERSION}_arm64.deb"
-elif [ "${PLATFORM}" == "x64" ]; then
+if [ "${PLATFORM}" == "x64" ]; then
   DEB_FILENAME="libceres-dev_${VERSION}_amd64.deb"
+else
+  DEB_FILENAME="libceres-dev_${VERSION}_arm64.deb"
 fi
 BUILD_DIR="${SCRIPT_DIR}/../build/ceres-${PLATFORM}"
 if [ ! -f ${BUILD_DIR}/${DEB_FILENAME} ]; then

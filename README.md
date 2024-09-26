@@ -7,7 +7,7 @@ To use the software published in this repository, you need to add the repository
 
 ```bash
 wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | sudo gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import
-echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" | sudo tee /etc/apt/sources.list.d/jetson-ppa.list
+echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" | sudo tee /etc/apt/sources.list.d/mvi-ppa.list
 sudo apt update
 ```
 
@@ -20,7 +20,7 @@ sudo apt upgrade nvidia-jetpack
 Or if you are only interested in OpenCV and do not have JetPack installed:
 
 ```bash
-sudo apt install libopencv-dev
+sudo apt install libopencv
 ```
 
 # Development
@@ -28,7 +28,7 @@ sudo apt install libopencv-dev
 Docker is the only dependency for the build process, and QEMU if you are not on an ARM64 machine.
 
 ```bash
-./scripts/build-opencv-jetson-r32.sh
+./scripts/build.sh <jetson-r32 x64> <package-name>
 ```
 
 Publishing requires `GPG_PUBLIC_KEY` and `GPG_PRIVATE_KEY` environment variables to be set. Example:
@@ -39,8 +39,8 @@ export GPG_PUBLIC_KEY=<public-key>
 export GPG_PRIVATE_KEY=$(cat <path-to-private-key.asc>)
 ```
 
-To publish the OpenCV package, run:
+To publish a package, run:
 
 ```bash
-./scripts/publish-opencv-jetson-r32.sh
+./scripts/publish-<package_name>.sh <jetson-r32 x64>
 ```

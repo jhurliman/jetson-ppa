@@ -33,7 +33,14 @@ else
   DOCKER_PLATFORM="linux/arm64"
 fi
 
+# Only run Docker in interactive mode if a TTY is present
+if [ -t 1 ]; then
+  DOCKER_ARGS="-it"
+else
+  DOCKER_ARGS=""
+fi
+
 # Build the Docker image where the package will be built
 docker build --platform ${DOCKER_PLATFORM} -t ${PACKAGE}-${PLATFORM} -f Dockerfile.${PACKAGE}-${PLATFORM} .
 # Run the Docker container to build the package and create a .deb
-docker run --platform ${DOCKER_PLATFORM} --rm -v ${SCRIPT_DIR}/../build/${PACKAGE}-${PLATFORM}:/build ${PACKAGE}-${PLATFORM}
+docker run --platform ${DOCKER_PLATFORM} --rm ${DOCKER_ARGS} -v ${SCRIPT_DIR}/../build/${PACKAGE}-${PLATFORM}:/build ${PACKAGE}-${PLATFORM}

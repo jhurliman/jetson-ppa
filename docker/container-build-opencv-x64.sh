@@ -41,6 +41,13 @@ cmake \
   -D CPACK_DEBIAN_PACKAGE_NAME=libopencv \
   -D CPACK_PACKAGE_RELEASE="${CPACK_PACKAGE_RELEASE}" \
   -D CPACK_DEBIAN_PACKAGE_RELEASE="ppa${CPACK_PACKAGE_RELEASE}" \
+  -D CPACK_PACKAGE_DESCRIPTION_SUMMARY="Open Computer Vision Library" \
+  -D CPACK_PACKAGE_DESCRIPTION="OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine learning software library. OpenCV was built to provide a common infrastructure for computer vision applications and to accelerate the use of machine perception in the commercial products. Being a BSD-licensed product, OpenCV makes it easy for businesses to utilize and modify the code." \
+  -D CPACK_PACKAGE_VENDOR="OpenCV Foundation" \
+  -D CPACK_PACKAGE_VERSION_MAJOR="4" \
+  -D CPACK_PACKAGE_VERSION_MINOR="10" \
+  -D CPACK_PACKAGE_VERSION_PATCH="0" \
+  -D CPACK_PACKAGE_VERSION="4.10.0-ppa1" \
   -D CPACK_GENERATOR=DEB \
   -D CPACK_MONOLITHIC_INSTALL=ON \
   -D CPACK_SOURCE_GENERATOR=DEB \
@@ -51,6 +58,7 @@ cmake \
   -D ENABLE_FAST_MATH=ON \
   -D INSTALL_C_EXAMPLES=OFF \
   -D INSTALL_PYTHON_EXAMPLES=OFF \
+  -D OPENCV_CUSTOM_PACKAGE_INFO=ON \
   -D OPENCV_DNN_CUDA=ON \
   -D OPENCV_ENABLE_NONFREE=OFF \
   -D OPENCV_ENABLE_PKG_CONFIG=ON \

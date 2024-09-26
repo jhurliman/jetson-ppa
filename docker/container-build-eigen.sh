@@ -16,7 +16,6 @@ cmake \
   -D CPACK_PACKAGE_CONTACT="John Hurliman <jhurliman@jhurliman.org>" \
   -D CPACK_PACKAGE_VERSION="3.4.0" \
   -D CPACK_PACKAGE_RELEASE="${CPACK_PACKAGE_RELEASE}" \
-  -D CPACK_DEBIAN_PACKAGE_RELEASE="ppa${CPACK_PACKAGE_RELEASE}" \
   -D CPACK_PACKAGE_DESCRIPTION="Eigen is a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms." \
   -D CPACK_DEBIAN_PACKAGE_SHLIBDEPS=ON \
   -D CPACK_DEBIAN_FILE_NAME="DEB-DEFAULT" \

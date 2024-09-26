@@ -4,7 +4,7 @@ set -e
 
 PLATFORMS=("jetson-r32" "x64")
 S3_BUCKET=repo.download.mvi.llc
-VERSION=4.10.0-ppa1
+VERSION=4.10.0
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 META_DIR="${SCRIPT_DIR}/../meta"
 PLATFORM=$1

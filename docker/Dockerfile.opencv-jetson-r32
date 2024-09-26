@@ -62,11 +62,11 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
     wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import && \
-    echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" >> /etc/apt/sources.list.d/jetson-ppa.list && \
+    echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" >> /etc/apt/sources.list.d/mvi-ppa.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    libceres-dev \
-    libeigen3-dev
+    libceres-dev=2.2.0 \
+    libeigen3-dev=3.4.0
 
 # Install other OpenCV dependencies
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \

@@ -47,7 +47,7 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/ubuntu/x64 jammy main" >> /etc/apt/sources.list.d/mvi-ppa.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    libeigen3-dev
+    libeigen3-dev=3.4.0
 
 # Install BLAS and LAPACK (ceres dependencies)
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \

@@ -31,7 +31,7 @@ cmake \
   -D CPACK_COMPONENTS_ALL="dev;libs" \
   -D CPACK_DEB_COMPONENT_INSTALL=ON \
   -D CPACK_DEBIAN_PACKAGE_DEPENDS="gfortran, libatlas-base-dev, libavcodec-dev, libavformat-dev, \
-     libblas-dev, libceres-dev, libeigen3-dev, libfaac-dev, libfreetype6-dev, libgflags-dev, \
+     libblas-dev, libceres-dev=2.2.0, libeigen3-dev=3.4.0, libfaac-dev, libfreetype6-dev, libgflags-dev, \
      libglew-dev, libgoogle-glog-dev, libharfbuzz-dev, libhdf5-dev, libjpeg-dev, libjpeg-turbo8-dev, \
      libjpeg8-dev, liblapack-dev, liblapacke-dev, libmp3lame-dev, libopenblas-dev, \
      libopencore-amrnb-dev, libopencore-amrwb-dev, libpng-dev, libpostproc-dev, libprotobuf-dev, \
@@ -41,14 +41,13 @@ cmake \
   -D CPACK_DEBIAN_PACKAGE_MAINTAINER="John Hurliman" \
   -D CPACK_DEBIAN_PACKAGE_NAME=libopencv \
   -D CPACK_PACKAGE_RELEASE="${CPACK_PACKAGE_RELEASE}" \
-  -D CPACK_DEBIAN_PACKAGE_RELEASE="ppa${CPACK_PACKAGE_RELEASE}" \
   -D CPACK_PACKAGE_DESCRIPTION_SUMMARY="Open Computer Vision Library" \
   -D CPACK_PACKAGE_DESCRIPTION="OpenCV (Open Source Computer Vision Library) is an open source computer vision and machine learning software library. OpenCV was built to provide a common infrastructure for computer vision applications and to accelerate the use of machine perception in the commercial products. Being a BSD-licensed product, OpenCV makes it easy for businesses to utilize and modify the code." \
   -D CPACK_PACKAGE_VENDOR="OpenCV Foundation" \
   -D CPACK_PACKAGE_VERSION_MAJOR="4" \
   -D CPACK_PACKAGE_VERSION_MINOR="10" \
   -D CPACK_PACKAGE_VERSION_PATCH="0" \
-  -D CPACK_PACKAGE_VERSION="4.10.0-ppa1" \
+  -D CPACK_PACKAGE_VERSION="4.10.0" \
   -D CPACK_GENERATOR=DEB \
   -D CPACK_MONOLITHIC_INSTALL=ON \
   -D CPACK_SOURCE_GENERATOR=DEB \

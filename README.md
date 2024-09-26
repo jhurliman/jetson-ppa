@@ -7,7 +7,7 @@ To use the software published in this repository, you need to add the repository
 
 ```bash
 wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | sudo gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import
-echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" | sudo tee /etc/apt/sources.list.d/jetson-ppa.list
+echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" | sudo tee /etc/apt/sources.list.d/mvi-ppa.list
 sudo apt update
 ```
 

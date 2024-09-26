@@ -4,7 +4,7 @@ set -e
 
 PLATFORMS=("jetson-r32" "x64")
 S3_BUCKET=repo.download.mvi.llc
-VERSION=3.4.0-ppa1
+VERSION=3.4.0
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PLATFORM=$1
 
@@ -16,6 +16,13 @@ fi
 if [[ ! " ${PLATFORMS[@]} " =~ " ${PLATFORM} " ]]; then
   echo "Invalid platform: ${PLATFORM}"
   echo "Valid platforms: ${PLATFORMS[@]}"
+  exit 1
+fi
+
+# NOTE: jammy already has libeigen3-dev 3.4.0, no need to publish our own. If
+# the Eigen version is ever bumped then this check should be removed
+if [ "${PLATFORM}" == "x64" ]; then
+  echo "Eigen 3.4.0 is already available in the jammy repository."
   exit 1
 fi
 

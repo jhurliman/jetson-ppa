@@ -19,6 +19,6 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
     wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import && \
     echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/ubuntu/x64 jammy main" >> /etc/apt/sources.list.d/mvi-ppa.list && \
-    apt-get update -o Acquire::http::No-Cache=true && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
     libopencv-dev=4.10.0

@@ -22,7 +22,7 @@ cmake \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \
   -D CPACK_BINARY_DEB=ON \
-  -D CPACK_DEBIAN_PACKAGE_DEPENDS="cuda-runtime-12-0, libblas-dev, libeigen3-dev=3.4.0-2ubuntu2, liblapack-dev, liblapacke-dev" \
+  -D CPACK_DEBIAN_PACKAGE_DEPENDS="cuda-runtime-12-0, libblas-dev, libeigen3-dev (= 3.4.0-2ubuntu2), liblapack-dev, liblapacke-dev" \
   -D CPACK_DEBIAN_PACKAGE_MAINTAINER="John Hurliman" \
   -D CPACK_DEBIAN_PACKAGE_NAME=libceres-dev \
   -D CPACK_GENERATOR=DEB \

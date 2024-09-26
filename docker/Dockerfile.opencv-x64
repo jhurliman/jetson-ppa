@@ -48,7 +48,7 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     apt-get update && \
     apt-get install -y --no-install-recommends \
     libceres-dev=2.2.0 \
-    libeigen3-dev=3.4.0
+    libeigen3-dev=3.4.0-2ubuntu2
 
 # Install other OpenCV dependencies
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \

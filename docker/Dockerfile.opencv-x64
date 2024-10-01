@@ -95,6 +95,13 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     protobuf-compiler \
     v4l-utils
 
+# Install OpenCV GUI (GTK) dependencies
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    libgtk-3-dev
+
 WORKDIR /usr/src
 
 # Retrieve opencv_contrib 4.10.0 + PR#3751 (CUDA < 12.4 regression fix)

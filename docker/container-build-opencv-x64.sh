@@ -11,7 +11,7 @@ cmake \
   -D BUILD_EXAMPLES=OFF \
   -D BUILD_opencv_apps=OFF \
   -D BUILD_opencv_gapi=OFF \
-  -D BUILD_opencv_highgui=OFF \
+  -D BUILD_opencv_highgui=ON \
   -D BUILD_opencv_java=OFF \
   -D BUILD_opencv_java_bindings_generator=OFF \
   -D BUILD_opencv_photo=ON \
@@ -69,9 +69,10 @@ cmake \
   -D WITH_EIGEN=ON \
   -D WITH_FREETYPE=ON \
   -D WITH_HARFBUZZ=ON \
+  -D WITH_HIGHGUI=ON \
   -D WITH_FFMPEG=ON \
   -D WITH_GSTREAMER=ON \
-  -D WITH_GTK=OFF \
+  -D WITH_GTK=ON \
   -D WITH_GTK_2_X=OFF \
   -D WITH_LIBV4L=ON \
   -D WITH_NVCUVENC=OFF \

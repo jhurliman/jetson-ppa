@@ -1,0 +1,51 @@
+# syntax=docker/dockerfile:1.2
+FROM nvcr.io/nvidia/l4t-base:r32.7.1
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install various dependencies for apt
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    rm -f /etc/apt/apt.conf.d/docker-clean && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+      apt-utils \
+      ca-certificates \
+      gnupg2
+
+# Add the CMake official PPA
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    apt-transport-https \
+    ca-certificates \
+    gnupg \
+    software-properties-common \
+    wget && \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | apt-key add - && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic main'
+
+# Install build dependencies
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    file \
+    ninja-build \
+    pkg-config
+
+WORKDIR /usr/src
+
+# Retrieve ffmpeg 4.4.2 release
+RUN wget -q https://ffmpeg.org/releases/ffmpeg-4.4.2.tar.bz2 && \
+    tar -xjf ffmpeg-4.4.2.tar.bz2 && \
+    rm ffmpeg-4.4.2.tar.bz2
+
+# Add the build scripts
+COPY build-ffmpeg.cmake CMakeLists.txt
+COPY container-build-ffmpeg-jetson-r32.sh .
+
+CMD ["bash", "container-build-ffmpeg-jetson-r32.sh"]

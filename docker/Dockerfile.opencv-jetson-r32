@@ -58,14 +58,15 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     git-lfs \
     pkg-config
 
-# Setup our PPA and install ceres
+# Setup our PPA and install ceres and ffmpeg
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     --mount=target=/var/cache/apt,type=cache,sharing=locked \
     wget -qO- https://repo.download.mvi.llc/jhurliman-public-key.asc | gpg --no-default-keyring --keyring /usr/share/keyrings/jhurliman.gpg --import && \
     echo "deb [signed-by=/usr/share/keyrings/jhurliman.gpg] https://repo.download.mvi.llc/jetson/common r32.7 main" >> /etc/apt/sources.list.d/mvi-ppa.list && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
-    libceres-dev=2.2.0
+    libceres-dev=2.2.0 \
+    ffmpeg=4.4.2
 
 # Install other OpenCV dependencies
 RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
@@ -74,8 +75,6 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     apt-get install -y --no-install-recommends \
     gfortran \
     libatlas-base-dev \
-    libavcodec-dev \
-    libavformat-dev \
     libblas-dev \
     libfaac-dev \
     libfreetype6-dev \
@@ -96,8 +95,6 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     libpng-dev \
     libpostproc-dev \
     libprotobuf-dev \
-    libswresample-dev \
-    libswscale-dev \
     libtbb-dev \
     libtesseract-dev \
     libtheora-dev \

@@ -25,7 +25,7 @@ ExternalProject_Add(
                       --bindir=/usr/bin
                       --enable-shared
                       --disable-static
-                      --extra-cflags="-march=armv8-a+crc"
+                      --extra-cflags="-mcpu=carmel"
   BUILD_COMMAND make -j8
   INSTALL_COMMAND DESTDIR=${FFMPEG_INSTALL_DIR} make install
   BUILD_IN_SOURCE 0

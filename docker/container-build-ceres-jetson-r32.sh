@@ -22,8 +22,8 @@ cmake \
   -D BUILD_SHARED_LIBS=ON \
   -D PROVIDE_UNINSTALL_TARGET=OFF \
   -D CMAKE_BUILD_TYPE=Release \
-  -D CMAKE_C_FLAGS="-march=armv8-a+crc" \
-  -D CMAKE_CXX_FLAGS="-march=armv8-a+crc" \
+  -D CMAKE_C_FLAGS="-mcpu=carmel" \
+  -D CMAKE_CXX_FLAGS="-mcpu=carmel" \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \
   -D CPACK_BINARY_DEB=ON \

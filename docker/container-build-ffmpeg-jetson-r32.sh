@@ -9,7 +9,7 @@ cd /build
 cmake \
   -G Ninja \
   -D CMAKE_BUILD_TYPE=Release \
-  -D CMAKE_C_FLAGS="-march=armv8-a+crc" \
+  -D CMAKE_C_FLAGS="-mcpu=carmel" \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CPACK_BINARY_DEB=ON \
   -D CPACK_DEBIAN_PACKAGE_REPLACES="libavcodec-dev, libavdevice-dev, libavformat-dev, libavfilter-dev, libavutil-dev, libswresample-dev, libswscale-dev, libavcodec57, libavdevice57, libavformat57, libavfilter6, libavutil55, libswresample, libswscale" \

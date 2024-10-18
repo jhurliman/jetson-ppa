@@ -14,8 +14,8 @@ cmake \
   -D CPP_STANDARD=17 \
   -D USE_OPENSSL=ON \
   -D CMAKE_BUILD_TYPE=Release \
-  -D CMAKE_C_FLAGS="-march=armv8-a+crc" \
-  -D CMAKE_CXX_FLAGS="-march=armv8-a+crc" \
+  -D CMAKE_C_FLAGS="-march=armv8.2-a+crc" \
+  -D CMAKE_CXX_FLAGS="-march=armv8.2-a+crc" \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \
   -D CPACK_BINARY_DEB=ON \

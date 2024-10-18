@@ -9,6 +9,7 @@ cd /build
 cmake \
   -G Ninja \
   -D MINIGLOG=ON \
+  -D MAX_LOG_LEVEL=-4 \
   -D GFLAGS=OFF \
   -D SUITESPARSE=OFF \
   -D USE_CUDA=ON \

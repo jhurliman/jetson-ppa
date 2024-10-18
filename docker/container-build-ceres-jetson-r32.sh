@@ -13,7 +13,7 @@ sed -i 's/set(CMAKE_CUDA_ARCHITECTURES "50;60;70;80")/set(CMAKE_CUDA_ARCHITECTUR
 cmake \
   -G Ninja \
   -D MINIGLOG=ON \
-  -D MAX_LOG_LEVEL=-4 \
+  -D MINIGLOG_MAX_LOG_LEVEL=-4 \
   -D GFLAGS=OFF \
   -D SUITESPARSE=OFF \
   -D USE_CUDA=ON \
@@ -23,8 +23,8 @@ cmake \
   -D BUILD_SHARED_LIBS=ON \
   -D PROVIDE_UNINSTALL_TARGET=OFF \
   -D CMAKE_BUILD_TYPE=Release \
-  -D CMAKE_C_FLAGS="-march=armv8-a+crc" \
-  -D CMAKE_CXX_FLAGS="-march=armv8-a+crc" \
+  -D CMAKE_C_FLAGS="-march=armv8.2-a+crc" \
+  -D CMAKE_CXX_FLAGS="-march=armv8.2-a+crc" \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \
   -D CPACK_BINARY_DEB=ON \

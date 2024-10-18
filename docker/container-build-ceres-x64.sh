@@ -9,7 +9,7 @@ cd /build
 cmake \
   -G Ninja \
   -D MINIGLOG=ON \
-  -D MAX_LOG_LEVEL=-4 \
+  -D MINIGLOG_MAX_LOG_LEVEL=-4 \
   -D GFLAGS=OFF \
   -D SUITESPARSE=OFF \
   -D USE_CUDA=ON \
@@ -19,6 +19,8 @@ cmake \
   -D BUILD_SHARED_LIBS=ON \
   -D PROVIDE_UNINSTALL_TARGET=OFF \
   -D CMAKE_BUILD_TYPE=Release \
+  -D CMAKE_C_FLAGS="-march=x86-64-v3" \
+  -D CMAKE_CXX_FLAGS="-march=x86-64-v3" \
   -D CMAKE_CUDA_COMPILER=/usr/local/cuda/bin/nvcc \
   -D CMAKE_INSTALL_PREFIX=/usr \
   -D CMAKE_INSTALL_RPATH_USE_LINK_PATH=ON \

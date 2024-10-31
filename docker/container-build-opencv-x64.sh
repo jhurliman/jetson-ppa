@@ -35,10 +35,9 @@ cmake \
      libavformat-dev, libblas-dev, libceres-dev (= 2.2.0), libcudnn8, libeigen3-dev (= 3.4.0-2ubuntu2), libfaac-dev, libfreetype6-dev, libgflags-dev, \
      libglew-dev, libgoogle-glog-dev, libharfbuzz-dev, libhdf5-dev, libjpeg-dev, libjpeg-turbo8-dev, \
      libjpeg8-dev, liblapack-dev, liblapacke-dev, libmp3lame-dev, libopenblas-dev, \
-     libopencore-amrnb-dev, libopencore-amrwb-dev, libpng-dev, libpostproc-dev, libprotobuf-dev, \
+     libopencore-amrnb-dev, libopencore-amrwb-dev, libpng-dev, libpostproc-dev, \
      libswresample-dev, libswscale-dev, libtbb-dev, libtesseract-dev, libtheora-dev, \
-     libtiff-dev, libv4l-dev, libvorbis-dev, libx264-dev, libxine2-dev, libxvidcore-dev, \
-     protobuf-compiler, v4l-utils" \
+     libtiff-dev, libv4l-dev, libvorbis-dev, libx264-dev, libxine2-dev, libxvidcore-dev, v4l-utils" \
   -D CPACK_DEBIAN_PACKAGE_MAINTAINER="John Hurliman" \
   -D CPACK_DEBIAN_PACKAGE_NAME=libopencv \
   -D CPACK_PACKAGE_RELEASE="${CPACK_PACKAGE_RELEASE}" \
@@ -81,7 +80,7 @@ cmake \
   -D WITH_NVCUVID=OFF \
   -D WITH_OPENCL=OFF \
   -D WITH_OPENMP=ON \
-  -D WITH_PROTOBUF=ON \
+  -D WITH_PROTOBUF=OFF \
   -D WITH_QT=OFF \
   -D WITH_TBB=ON \
   -D WITH_V4L=ON \

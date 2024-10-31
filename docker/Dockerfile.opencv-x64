@@ -80,7 +80,6 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     libopencore-amrwb-dev \
     libpng-dev \
     libpostproc-dev \
-    libprotobuf-dev \
     libswresample-dev \
     libswscale-dev \
     libtbb-dev \
@@ -92,7 +91,6 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     libx264-dev \
     libxine2-dev \
     libxvidcore-dev \
-    protobuf-compiler \
     v4l-utils
 
 # Install OpenCV GUI (GTK) dependencies

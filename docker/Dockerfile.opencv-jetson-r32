@@ -94,7 +94,6 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     libopencore-amrwb-dev \
     libpng-dev \
     libpostproc-dev \
-    libprotobuf-dev \
     libtbb-dev \
     libtesseract-dev \
     libtheora-dev \
@@ -104,7 +103,6 @@ RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
     libx264-dev \
     libxine2-dev \
     libxvidcore-dev \
-    protobuf-compiler \
     v4l-utils
 
 WORKDIR /usr/src

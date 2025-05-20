@@ -51,9 +51,8 @@ fi
 # Upload the valgrind deb package to S3
 docker run --rm \
   -v ~/.aws:/root/.aws \
-  -v "${BUILD_DIR}":/build \
+  -v ${BUILD_DIR}:/build \
   -e GPG_PRIVATE_KEY="${GPG_PRIVATE_KEY}" \
-  deb-s3 \
   ${DEB_S3_CMD}
 
 echo "Successfully published ${DEB_FILENAME} to ${S3_BUCKET}"

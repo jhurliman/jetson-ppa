@@ -14,11 +14,6 @@ set(VALGRIND_STAGED_INSTALL_DIR "${CMAKE_BINARY_DIR}/valgrind-install") # Interm
 # CMAKE_INSTALL_PREFIX will be set by the calling script (e.g., to /usr)
 # This is the prefix CPack will use for the final package structure.
 
-ProcessorCount(NPROCS) # Get the number of processors
-if(NOT NPROCS GREATER 0)
-  set(NPROCS 1) # Default to 1 if detection fails
-endif()
-
 # External project to build Valgrind
 ExternalProject_Add(
   valgrind # Target name
@@ -28,7 +23,7 @@ ExternalProject_Add(
                       --prefix=${VALGRIND_STAGED_INSTALL_DIR} # Install to our intermediate dir
                       --enable-lto=yes
                       --disable-dependency-tracking
-  BUILD_COMMAND make -j${NPROCS}
+  BUILD_COMMAND make -j8
   INSTALL_COMMAND make install # This installs to VALGRIND_STAGED_INSTALL_DIR
   BUILD_IN_SOURCE 0
   DOWNLOAD_COMMAND ""

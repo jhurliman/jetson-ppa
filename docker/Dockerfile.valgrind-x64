@@ -1,0 +1,53 @@
+# syntax=docker/dockerfile:1.2
+FROM ubuntu:jammy
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV VALGRIND_VERSION=3.25.1
+
+# Install common dependencies and add Kitware (CMake) PPA
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    apt-transport-https \
+    apt-utils \
+    ca-certificates \
+    gnupg2 \
+    software-properties-common \
+    wget && \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null && \
+    echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ jammy main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null && \
+    apt-get update
+
+# Install build dependencies for Valgrind
+# Valgrind needs g++, make, autotools, and a few other build tools
+RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
+    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    cmake \
+    g++ \
+    make \
+    automake \
+    autoconf \
+    libtool \
+    file \
+    ninja-build \
+    pkg-config
+
+WORKDIR /usr/src
+
+# Retrieve Valgrind source
+RUN wget -q https://sourceware.org/pub/valgrind/valgrind-${VALGRIND_VERSION}.tar.bz2 && \
+    tar -xjf valgrind-${VALGRIND_VERSION}.tar.bz2 && \
+    rm valgrind-${VALGRIND_VERSION}.tar.bz2
+
+# Add the build scripts
+COPY build-valgrind.cmake CMakeLists.txt
+COPY container-build-valgrind-x64.sh container-build.sh
+
+# Make the script executable
+RUN chmod +x /usr/src/container-build.sh
+
+CMD ["bash", "/usr/src/container-build.sh"]

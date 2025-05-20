@@ -3,7 +3,7 @@
 set -e
 
 PLATFORMS=("jetson-r32" "x64")
-PACKAGES=("awssdk" "ceres" "eigen" "ffmpeg" "opencv")
+PACKAGES=("awssdk" "ceres" "eigen" "ffmpeg" "opencv" "valgrind")
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PLATFORM=$1
 PACKAGE=$2

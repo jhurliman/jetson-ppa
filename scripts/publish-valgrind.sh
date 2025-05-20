@@ -23,7 +23,7 @@ fi
 if [ "${PLATFORM}" == "x64" ]; then
   DEB_FILENAME="valgrind_${VERSION}_amd64.deb"
 else # jetson-r32
-  DEB_FILENAME="valgrind-jetson_${VERSION}_arm64.deb"
+  DEB_FILENAME="valgrind_${VERSION}_arm64.deb"
 fi
 BUILD_DIR="${SCRIPT_DIR}/../build/valgrind-${PLATFORM}"
 if [ ! -f "${BUILD_DIR}/${DEB_FILENAME}" ]; then
